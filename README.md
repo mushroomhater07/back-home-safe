@@ -53,25 +53,34 @@ GitHub Repository 是 Mirror GitLab\
 此外本人未有甄選 Repo 的 Developer role 的計劃\
 所以建議在自行 Fork 的 Repo 進行 Development 再 Merge back
 
-### Repository Links
-
-GitLab[Main]: <https://gitlab.com/codogo-b/back-home-safe> \
-GitHub[Mirror]: <https://github.com/codogob/back-home-safe>
-
-### Local testing
-
-```bash
-npm install
-npm start
+### For GitHub host
 ```
+on:
+  push:
+    branches:
+      - master
+permissions:
+  contents: write
 
-### Self Host
 
-```bash
-npm install
-npm run build
-```
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2.3.1
+
+      - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
+        run: |
+          npm install --force --legacy-peer-deps
+          npm run build
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: dist # The folder of build output
+ ```
+ `npm install`
+Local testing `npm start`
+Build `npm run build`
 
 將/build 放入自己 web server 就 okay
-
 \*\*註：一定要用 https serve
